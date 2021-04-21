@@ -39,7 +39,7 @@ public class AccountHolderController {
 	@GetMapping("/account-holders/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public AccountHolder getAccountHolderById(@PathVariable int id) throws NoSuchResourceFoundException{
-		if (id < 0 || id > (MeritBank.getAccountHolders().size() - 1)) {
+		if (id < 0 || id > (MeritBank.getAccountHolders().size())) {
 			throw new NoSuchResourceFoundException("Account Holder does not exist.");
 		} else {
 			return MeritBank.getAccountHolders().get(id-1);
