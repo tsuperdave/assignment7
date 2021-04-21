@@ -4,43 +4,61 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "AccountHolders")
 public class AccountHolder implements Comparable<AccountHolder>{
 	private static int nextId = 1;
 	
 	@Id
+	@Column(name = "id")
 	private int id;
 	
 	@Max(250000)
+	@Column(name = "combined_balance")
 	private double combinedBalance;
 	
+	/*
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id")
 	private List<CDAccount> cdAccounts = new ArrayList<CDAccount>();
 	private List<SavingsAccount> savingsAccounts = new ArrayList<SavingsAccount>();
 	private List<CheckingAccount> checkingAccounts = new ArrayList<CheckingAccount>();
+	*/
 	
 	@NotBlank(message="First name field must not be blank")
 	@NotNull(message="First name field must not be blank")
+	@Column(name = "first_name")
 	private String firstName;
+	@Column(name = "middle_name")
 	private String middleName;
-	
+	@Column(name = "last_name")
 	@NotBlank(message="Last name field must not be blank")
 	@NotNull(message="Last name field must not be blank")
 	private String lastName;
 	
 	@NotBlank(message="SSN field must not be blank")
 	@NotNull(message="SSN field must not be blank")
+	@Column(name = "ssn")
 	private String ssn;
+	
+	/*
 	private int numberOfCheckingAccounts = 0;
 	private int numberOfSavingsAccounts = 0;
 	private int numberOfCDAccounts = 0;
 	//private long accountID;
-	
+	*/
 	public AccountHolder() {
 		this.firstName = "";
 		this.middleName = "";

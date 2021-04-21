@@ -4,11 +4,19 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -19,14 +27,19 @@ import com.meritamerica.models.CDOffering;
 import com.meritamerica.models.CheckingAccount;
 import com.meritamerica.models.MeritBank;
 import com.meritamerica.models.SavingsAccount;
+import com.meritamerica.repositories.AccountHolderRepository;
 
-@RestController
+
+@Controller
 public class AccountHolderController {
+	
+	@Autowired
+	private AccountHolderRepository accHolderRepo;
 	
 	@PostMapping("/account-holders")
 	@ResponseStatus(HttpStatus.CREATED)
 	public AccountHolder postAccountHolder(@RequestBody @Valid AccountHolder accHolder ) {
-		MeritBank.addAccountHolder(accHolder);
+		accHolderRepo.save(accHolder);
 		return accHolder;
 	}
 	

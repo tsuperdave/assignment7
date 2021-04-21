@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ import java.text.SimpleDateFormat;
 public abstract class BankAccount {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected long accountNumber;
 	
 	@Positive
@@ -35,21 +38,21 @@ public abstract class BankAccount {
 	
 	public BankAccount(double openingBalance) {
 		this.balance = openingBalance;
-		this.accountNumber = MeritBank.getNextAccountNumber();
+		//this.accountNumber = MeritBank.getNextAccountNumber();
 		this.accountOpenedOn = new Date();
 	}
 	
 	public BankAccount(double balance, double interestRate) {
 		this.balance = balance;
 		this.interestRate = interestRate;
-		MeritBank.getNextAccountNumber();
+		//MeritBank.getNextAccountNumber();
 		this.accountOpenedOn = new Date();
 	}
 	
 	public BankAccount(double balance, double interestRate, Date accountOpenedOn) {
 		this.balance = balance;
 		this.interestRate = interestRate;
-		MeritBank.getNextAccountNumber();
+		//MeritBank.getNextAccountNumber();
 		this.accountOpenedOn = accountOpenedOn;
 	}
 	
