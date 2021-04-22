@@ -8,14 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.meritamerica.repositories.AccountHolderRepository;
+import com.meritamerica.assignment5.repositories.AccountHolderRepository;
 
-@ComponentScan
-@EnableWebMvc
-@EnableJpaRepositories(basePackages = "com.meritamerica.packages")
-@EnableAutoConfiguration
+
 @SpringBootApplication
-@EntityScan("com.meritamerica.models")
 public class Assignment5Application {
 
 	public static void main(String[] args) {
