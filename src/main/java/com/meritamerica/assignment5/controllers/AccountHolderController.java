@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meritamerica.assignment5.models.AccountHolder;
+import com.meritamerica.assignment5.models.CheckingAccount;
+import com.meritamerica.assignment5.models.ExceedsCombinedBalanceLimitException;
 import com.meritamerica.assignment5.models.NoSuchResourceFoundException;
 import com.meritamerica.assignment5.repositories.AccountHolderRepository;
 
@@ -24,6 +26,8 @@ public class AccountHolderController {
 	
 	@Autowired
 	private AccountHolderRepository accHolderRepo;
+	
+	
 	
 	@PostMapping("/account-holders")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -47,16 +51,13 @@ public class AccountHolderController {
 			return accHolderRepo.findById(id);
 		}
 	}
-	/*
+	
 	@PostMapping("/account-holders/{id}/checking-accounts")
 	@ResponseStatus(HttpStatus.CREATED)
 	public CheckingAccount postCheckingAccount(
-			@PathVariable int id, @RequestBody @Valid CheckingAccount checkingAccount ) 
-					throws NoSuchResourceFoundException, NegativeAmountException, ExceedsCombinedBalanceLimitException {
-		if (checkingAccount.getBalance() + MeritBank.getAccountHolders().get(id-1).getCombinedBalance() >= 250000 ){
-			throw new ExceedsCombinedBalanceLimitException("Exceeds combined balance limit.");
-		} else {
-			MeritBank.getAccountHolders().get(id-1).addCheckingAccount(checkingAccount);
+			@PathVariable Integer id, @RequestBody @Valid CheckingAccount checkingAccount ) 
+					throws NoSuchResourceFoundException, NegativeAmountException, ExceedsCombinedBalanceLimitException { {
+			checkingAccount.getAccountHolder().
 			return checkingAccount;
 		}
 	}
@@ -122,5 +123,13 @@ public class AccountHolderController {
 			return MeritBank.getAccountHolders().get(id-1).getCDAccounts();
 		}
 	}*/
+	
+	public AccountHolderRepository getAccHolderRepo() {
+		return accHolderRepo;
+	}
+
+	public void setAccHolderRepo(AccountHolderRepository accHolderRepo) {
+		this.accHolderRepo = accHolderRepo;
+	}
 
 }

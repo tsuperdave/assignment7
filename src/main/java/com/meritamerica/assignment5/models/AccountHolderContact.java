@@ -18,14 +18,15 @@ public class AccountHolderContact {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
+	
 	private int phoneNumber;
 	
 	@Email(message = "Please enter a valid email address")
 	private String email;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id", referencedColumnName = "id")
+	@JoinColumn(name = "id", referencedColumnName = "accountHolder_id")
 	@NotNull
 	private AccountHolder accountHolder;
 
@@ -33,11 +34,11 @@ public class AccountHolderContact {
 		
 	}
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -57,11 +58,11 @@ public class AccountHolderContact {
 		this.email = email;
 	}
 
-	public AccountHolder getAccountHOlder() {
+	public AccountHolder getAccountHolder() {
 		return accountHolder;
 	}
 
-	public void setAccountHOlder(AccountHolder accountHOlder) {
+	public void setAccountHolder(AccountHolder accountHOlder) {
 		this.accountHolder = accountHOlder;
 	}
 	
