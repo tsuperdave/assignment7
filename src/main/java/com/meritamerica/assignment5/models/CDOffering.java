@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.meritamerica.assignment5.services.MeritBankService;
+
 @Entity
 public class CDOffering implements Comparable<CDOffering>{
 	
@@ -34,6 +37,7 @@ public class CDOffering implements Comparable<CDOffering>{
 	private int id;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cdOffering")
+	@JsonIgnore
 	private List<CDAccount> cdAccount;
 
 	public List<CDAccount> getCdAccount() {
@@ -48,8 +52,8 @@ public class CDOffering implements Comparable<CDOffering>{
 	}
 	
 	public CDOffering(int id) {
-		this.interestRate = MeritBank.getCDOfferings().get(id-1).getInterestRate();
-		this.term = MeritBank.getCDOfferings().get(id-1).getTerm();
+		this.interestRate = MeritBankService.getCDOfferings().get(id-1).getInterestRate();
+		this.term = MeritBankService.getCDOfferings().get(id-1).getTerm();
 		this.id = id;
 	}
 	

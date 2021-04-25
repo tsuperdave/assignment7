@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.lang.NumberFormatException;
 import java.text.ParseException;
@@ -20,10 +26,11 @@ import java.text.SimpleDateFormat;
 @MappedSuperclass
 public abstract class BankAccount {
 	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-	protected Long accountNumber;
+	private int id;
 	
 	@Positive
 	@NotNull
@@ -40,48 +47,36 @@ public abstract class BankAccount {
 	//private List<Transaction> transactions = new ArrayList<Transaction>();
 	
 	public BankAccount() {
+		this.accountOpenedOn = new Date();
+		
 	}
 	
 	public BankAccount(double openingBalance) {
 		this.balance = openingBalance;
-		//this.accountNumber = MeritBank.getNextAccountNumber();
+		//this.accountNumber = MeritBankService.getNextAccountNumber();
 		this.accountOpenedOn = new Date();
 	}
 	
 	public BankAccount(double balance, double interestRate) {
 		this.balance = balance;
 		this.interestRate = interestRate;
-		//MeritBank.getNextAccountNumber();
+		//MeritBankService.getNextAccountNumber();
 		this.accountOpenedOn = new Date();
 	}
 	
 	public BankAccount(double balance, double interestRate, Date accountOpenedOn) {
 		this.balance = balance;
 		this.interestRate = interestRate;
-		//MeritBank.getNextAccountNumber();
+		//MeritBankService.getNextAccountNumber();
 		this.accountOpenedOn = accountOpenedOn;
 	}
 	
-	public BankAccount(long accountNumber, double balance, double interestRate) {
-		this.accountNumber = accountNumber;
-		this.balance = balance;
-		this.interestRate = interestRate;
-		this.accountOpenedOn = new Date();
+	public int getId() {
+		return id;
 	}
 	
-	public BankAccount(long accountNumber, double balance, double interestRate, Date accountOpenedOn) {
-		this.accountNumber = accountNumber;
-		this.balance = balance;
-		this.interestRate = interestRate;
-		this.accountOpenedOn = accountOpenedOn;
-	}
-	
-	public long getAccountNumber() {
-		return accountNumber;
-	}
-	
-	public void setAccountNumber(long accountNum) {
-		accountNumber = accountNum;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public double getBalance() {
@@ -137,9 +132,10 @@ public abstract class BankAccount {
 	public String toString() {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		String dateString = dateFormatter.format(accountOpenedOn);
-		return accountNumber + "," + balance + "," + interestRate
+		return id + "," + balance + "," + interestRate
 				+ "," + dateString;
 	}
+
 	
 	/*public void addTransaction(Transaction transaction) {
 		transactions.add(transaction);

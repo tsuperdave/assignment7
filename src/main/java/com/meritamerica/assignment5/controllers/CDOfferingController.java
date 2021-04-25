@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meritamerica.assignment5.models.CDOffering;
-import com.meritamerica.assignment5.models.MeritBank;
 import com.meritamerica.assignment5.repositories.CDOfferingRepository;
+import com.meritamerica.assignment5.services.MeritBankService;
 
 @RestController
 public class CDOfferingController {

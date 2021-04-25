@@ -26,10 +26,8 @@ public class CDAccount extends BankAccount {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "accountHolder_id")
-	private AccountHolder accountHolder;
-
 	@JsonIgnore
-	int tempTerm;
+	private AccountHolder accountHolder;
 	
 	@JsonIgnore
 	protected double futureBalance;
@@ -44,13 +42,17 @@ public class CDAccount extends BankAccount {
 	public CDAccount() {
 	}
 
+	public CDAccount(CDOffering cdOffering, int balance) {
+		this.cdOffering = cdOffering;
+		this.balance = balance;
+	}
+
 	public int getTerm() {
 		return term;
 	}
 	
 	public void setTerm(int i) {
 		this.term = i;
-		this.tempTerm = term;
 	}
 	
 	public AccountHolder getAccountHolder() {
@@ -70,7 +72,7 @@ public class CDAccount extends BankAccount {
 	public boolean deposit(double amount) {
 			return false;
 	}
-	
+	/*
 	public double futureValue() {
 	    if (tempTerm == 0) {
 	    	double tempBalance;
@@ -82,7 +84,7 @@ public class CDAccount extends BankAccount {
 	        --tempTerm;
 	        return futureValue();
 	    }
-	  }
+	  }*/
 	
 	public double getFutureBalance() {
 		this.futureBalance = this.balance;
@@ -101,9 +103,6 @@ public class CDAccount extends BankAccount {
 		this.futureBalance = getBalance();
 	}
 	
-	public void resetTempTerm() {
-		this.tempTerm = this.term;
-	}
 	
 	public double getInterestRate() {
 		return interestRate;
@@ -133,7 +132,8 @@ public class CDAccount extends BankAccount {
 	public String toString() {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 		String dateString = dateFormatter.format(getOpenedOn());
-		return getAccountNumber() + "," + getBalance() + "," + getInterestRate()
+		return super.getId() + "," + getBalance() + "," + getInterestRate()
 					+ "," + dateString + "," + term;
 	}
+	
 }

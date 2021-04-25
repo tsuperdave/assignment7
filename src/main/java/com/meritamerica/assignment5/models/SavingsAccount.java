@@ -13,16 +13,28 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.meritamerica.assignment5.services.MeritBankService;
+
 @Entity
 public class SavingsAccount extends BankAccount {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected Integer accountNumber;
-	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "accountHolder_id")
+	@JoinColumn(name = "accountHolder_id", referencedColumnName = "id")
+	@JsonIgnore
 	private AccountHolder accountHolder;
+	
+	public SavingsAccount() {
+		this.interestRate = MeritBankService.getSavingsInterest();
+	}
+	
+	public AccountHolder getAccountHolder() {
+		return accountHolder;
+	}
+
+	public void setAccountHolder(AccountHolder accountHolder) {
+		this.accountHolder = accountHolder;
+	}
 	
 }
 

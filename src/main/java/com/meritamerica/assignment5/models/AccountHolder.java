@@ -3,10 +3,12 @@ package com.meritamerica.assignment5.models;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +21,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "AccountHolders")
 public class AccountHolder implements Comparable<AccountHolder>{
 	private static int nextId = 1;
 	
@@ -39,7 +40,7 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	@JoinColumn(name = "id", referencedColumnName = "id")
 	private AccountHolderContact accHolderCont;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "accountHolder")
 	private List<CheckingAccount> checkingAccounts;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
@@ -64,29 +65,7 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	@Column(name = "ssn")
 	private String ssn;
 	
-	/*
-	private int numberOfCheckingAccounts = 0;
-	private int numberOfSavingsAccounts = 0;
-	private int numberOfCDAccounts = 0;
-	//private long accountID;
-	*/
 	public AccountHolder() {
-		this.id = nextId++;
-	}
-	
-	/*public AccountHolder() {
-		this.firstName = "";
-		this.middleName = "";
-		this.lastName = "";
-		this.ssn = "";
-		this.id = nextId++;
-	}*/
-	
-	public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
-		this.firstName = firstName;
-		this.middleName = middleName;
-		this.lastName = lastName;
-		this.ssn = ssn;
 		this.id = nextId++;
 	}
 	
@@ -138,10 +117,51 @@ public class AccountHolder implements Comparable<AccountHolder>{
 		this.id = id;
 	}
 	
+	public static int getNextId() {
+		return nextId;
+	}
+
+	public static void setNextId(int nextId) {
+		AccountHolder.nextId = nextId;
+	}
+
+	public double getCombinedBalance() {
+		return combinedBalance;
+	}
+
+	public void setCombinedBalance(double combinedBalance) {
+		this.combinedBalance = combinedBalance;
+	}
+
+	public List<CheckingAccount> getCheckingAccounts() {
+		return checkingAccounts;
+	}
+
+	public void setCheckingAccounts(List<CheckingAccount> checkingAccounts) {
+		this.checkingAccounts = checkingAccounts;
+	}
+
+	public List<SavingsAccount> getSavingsAccounts() {
+		return savingsAccounts;
+	}
+
+	public void setSavingsAccounts(List<SavingsAccount> savingsAccounts) {
+		this.savingsAccounts = savingsAccounts;
+	}
+
+	public List<CDAccount> getCdAccounts() {
+		return cdAccounts;
+	}
+
+	public void setCdAccounts(List<CDAccount> cdAccounts) {
+		this.cdAccounts = cdAccounts;
+	}
+
+	
 	/*
 	public CheckingAccount addCheckingAccount(double openingBalance) {
 		CheckingAccount account = new CheckingAccount(openingBalance);
-		account.setInterestRate(MeritBank.getCheckingInterest());
+		account.setInterestRate(MeritBankService.getCheckingInterest());
 		if (((this.getCheckingBalance() + this.getSavingsBalance()) + openingBalance < 250000)) {
 			checkingAccounts.add(account);
 			numberOfCheckingAccounts++;

@@ -1,4 +1,4 @@
-package com.meritamerica.assignment5.models;
+package com.meritamerica.assignment5.services;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,10 +19,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 
+import com.meritamerica.assignment5.models.CDOffering;
 import com.meritamerica.assignment5.repositories.AccountHolderRepository;
 
-public class MeritBank {
+public abstract class MeritBankService {
 	
+	private static int nextAccountNumber = 1;
 	private static final double CHECKING_INTEREST = 0.0001;
 	private static final double SAVINGS_INTEREST = 0.01;
 	private static int ahArrayCounter = 0;
@@ -77,11 +79,11 @@ public class MeritBank {
 	
 	/*
 	public static double getTotalBalances(AccountHolder[] holders) {
-		MeritBank.totalBalances = 0;
+		MeritBankService.totalBalances = 0;
 		for (AccountHolder accountHolder : accountHolders) {
-			MeritBank.totalBalances += accountHolder.getCombinedBalance();
+			MeritBankService.totalBalances += accountHolder.getCombinedBalance();
 		}
-		return MeritBank.totalBalances;
+		return MeritBankService.totalBalances;
 	}*/
 	
 	public static double futureValue(double presentValue, double interestRate, int term) {
@@ -98,6 +100,14 @@ public class MeritBank {
             return (base * power(base, powerRaised - 1));
         else
             return 1;
+	}
+	
+	public static int getNextAccountNumber() {
+		return nextAccountNumber++;
+	}
+
+	public static void setNextAccountNumber(int nextAccountNumber) {
+		MeritBankService.nextAccountNumber = nextAccountNumber;
 	}
 	
 	/*public static boolean processTransaction(Transaction transaction) 
